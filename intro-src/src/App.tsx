@@ -14,12 +14,12 @@ import { MinimalSignoffFooter } from "./MinimalSignoffFooter";
 
 /* ───────── screen 1 data ───────── */
 
-type Charter = { n: string; title: string; body: string; stat?: { value: number; prefix?: string; suffix?: string; label: string } };
+type Charter = { n: string; title: string; body: string; tags?: string[]; stat?: { value: number; prefix?: string; suffix?: string; label: string } };
 
 const CHARTER: Charter[] = [
-  { n: "01", title: "Warehouse management", body: "Sourcing to sales: tracking, monitoring and the sales channel for every device.", stat: { value: 500, suffix: "k", label: "devices a month" } },
+  { n: "01", title: "Warehouse management", body: "Sourcing to sales: tracking, monitoring and the sales channel for every device.", tags: ["Apple", "3PL partners", "Blancco · data erasure"], stat: { value: 500, suffix: "k", label: "devices a month" } },
   { n: "02", title: "ERP migration, pre‑IPO", body: "Designed and architected the Dynamics 365 integration, migrated the financial records and switched off Tally.", stat: { value: 9, label: "months, Tally to Dynamics 365" } },
-  { n: "03", title: "Logistics", body: "Our own rule-based panel that ops configure. It decides where each device goes by source: forward or reverse, B2B, B2C or internal. Think Shiprocket, built in-house.", stat: { value: 150, prefix: "€", suffix: "k", label: "saved in 6 months · 10+ partners" } },
+  { n: "03", title: "Logistics", body: "Our own rule-based panel that ops configure. It decides where each device goes by source: forward or reverse, B2B, B2C or internal. Think Shiprocket, built in-house, with 10+ partners.", stat: { value: 150, prefix: "€", suffix: "k", label: "saved in 6 months" } },
   { n: "04", title: "Grew a side business", body: "Repair: a profitable retail business. I led its revenue growth." },
 ];
 
@@ -112,6 +112,12 @@ function Charter() {
           <span className="lo-ch-n">{c.n}</span>
           <h3 className="lo-ch-t">{c.title}</h3>
           <p className="lo-ch-b">{c.body}</p>
+          {c.tags ? (
+            <div className="lo-ch-tags">
+              <span className="lo-ch-tl">Vendor integrations</span>
+              <ul>{c.tags.map((t) => <li key={t}>{t}</li>)}</ul>
+            </div>
+          ) : null}
           {c.stat ? (
             <div className="lo-ch-stat">
               <strong className="fd-cus-value lo-ch-v"><Odometer value={c.stat.value} prefix={c.stat.prefix} suffix={c.stat.suffix} start={seen} delay={i * 120} /></strong>
@@ -176,17 +182,20 @@ export function App() {
         {/* 1 · Who + charter */}
         <section className="lo-screen" id="who" aria-labelledby="who-h">
           <div className="lo-wrap">
-            <Reveal>
-              <p className="lo-eyebrow" style={{ ["--i" as string]: 0 }}>01 · 90-second overview</p>
-              <div className="lo-who" style={{ ["--i" as string]: 1 }}>
-                <div id="who-h"><SplitText as="h1" text="Samyak Jain" preset="rise" split="words" className="lo-name" trigger="mount" /></div>
-                <p className="lo-role">Senior Product Manager · Berlin</p>
-              </div>
-              <p className="lo-lead" style={{ ["--i" as string]: 2 }}><b>7 years in product.</b> Started as a software engineer at Accenture, moved into product because I loved <em>talking to customers and solving their problems directly.</em></p>
-              <h2 className="lo-h2 lo-h2-sm" style={{ ["--i" as string]: 3 }}>At Cashify, I led the supply chain pod. <span className="lo-dim">Four things in the charter.</span></h2>
-            </Reveal>
-            <Charter />
-            <p className="lo-after">Then a few months at upGrad building AI workflows for study-abroad students.</p>
+            <div className="lo-frame">
+              <Reveal className="lo-frame-top">
+                <div className="lo-frame-id" style={{ ["--i" as string]: 0 }}>
+                  <div id="who-h"><SplitText as="h1" text="Samyak Jain" preset="rise" split="words" className="lo-name" trigger="mount" /></div>
+                  <p className="lo-role">Senior Product Manager · Berlin</p>
+                </div>
+                <p className="lo-lead" style={{ ["--i" as string]: 1 }}><b>7 years in product.</b> Started as a software engineer at Accenture, moved into product because I loved <em>talking to customers and solving their problems directly.</em></p>
+              </Reveal>
+              <Reveal>
+                <h2 className="lo-h2 lo-h2-sm" style={{ ["--i" as string]: 2 }}>At Cashify, I led the supply chain pod. <span className="lo-dim">Four things in the charter.</span></h2>
+              </Reveal>
+              <Charter />
+              <p className="lo-after">Then a few months at upGrad building AI workflows for study-abroad students.</p>
+            </div>
           </div>
         </section>
 
